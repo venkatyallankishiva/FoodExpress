@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        .category {
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            font-size: 1.5em;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+        }
+        .menu-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .menu-item {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .menu-item:hover {
+            transform: scale(1.05);
+        }
+        .menu-item img {
+            width: 100%;
+            height: 200px; /* Set a fixed height */
+            object-fit: cover; /* Ensures the image covers the area without distorting */
+            border-radius: 10px;
+        }
+        .menu-item h3 {
+            color: #e74c3c;
+            font-size: 1.2em;
+        }
+        .menu-item p {
+            font-size: 0.9em;
+            margin: 10px 0;
+            color: #555;
+        }
+        .menu-item .price {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #27ae60;
+        }
+        .menu-item .availability {
+            font-size: 0.9em;
+            color: #2980b9;
+        }
+        .actions {
+            margin-top: 10px;
+        }
+        .actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #3498db;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .actions a:hover {
+            background-color: #2980b9;
+        }
+        .actions form {
+            display: inline-block;
+        }
+        .add-item-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 10px 20px;
+            background-color: #2ecc71;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .add-item-btn:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+<h1>Restaurant Menu</h1>
+<a href="/add-menu" class="add-item-btn">Add New Item</a>
+
+<div class="menu-container">
+    <div th:each="category : ${menuItemsByCategory}">
+        <div class="category" th:text="${category.name}">Category</div>
+        <div class="menu-items">
+            <div class="menu-item" th:each="item : ${category.items}">
+                <img th:src="${item.imageUrl}" alt="Menu Item Image" class="menu-item-image">
+                <h3 th:text="${item.name}">Item Name</h3>
+                <p><strong>Description:</strong> <span th:text="${item.description}">Description</span></p>
+                <p class="price" th:text="'₹' + ${item.price}">Price</p>
+                <p class="availability" th:text="${item.availability ? 'Availability: Available' : 'Availability: Not Available'}"></p>
+                <div class="actions">
+                    <a th:href="@{/edit-menu/{id}(id=${item.id})}">Edit</a>
+                    <form th:action="@{/delete-menu/{id}(id=${item.id})}" method="post">
+                        <button type="submit" style="background-color: red; color: white; padding: 5px 10px; border-radius: 5px; border: none; cursor: pointer;">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

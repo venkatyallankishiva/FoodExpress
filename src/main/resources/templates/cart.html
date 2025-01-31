@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        .cart-items {
+            list-style-type: none;
+            padding: 0;
+        }
+        .cart-items li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .cart-items img {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+        .cart-items span {
+            flex: 1;
+            margin: 0 10px;
+        }
+        .cart-items span:first-child {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .cart-items span:last-child {
+            color: #4CAF50;
+            font-size: 18px;
+        }
+        form {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label, input {
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"] {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .payment-options {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .payment-option {
+            width: 80px;
+            height: auto;
+            margin: 0 10px;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 18px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .hidden {
+            display: none;
+        }
+        .order-summary {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .order-summary p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+        .qr-code {
+            display: block;
+            margin: 20px auto;
+            width: 150px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Your Cart</h1>
+    <ul class="cart-items">
+        <li>
+            <img src="https://www.archanaskitchen.com/images/archanaskitchen/1-Author/Priya__Suresh/Paneer_Biryani_Recipe_1_1600.jpg" alt="Paneer Biryani">
+            <span>Paneer Biryani</span>
+            <span>₹180</span>
+        </li>
+        <li>
+            <img src="https://img.freepik.com/premium-photo/veg-manchurian-popular-indochinese-food-made-cauliflower-florets-other-vegetable-served-white-plate-rustic-wooden-table-selective-focus_726363-656.jpg?w=1380" alt="Veg Manchurian">
+            <span>Veg Manchurian</span>
+            <span>₹165</span>
+        </li>
+    </ul>
+    <form id="order-form">
+        <h2>Delivery Details</h2>
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required>
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone" name="phone" required>
+        <h2>Payment Options</h2>
+        <div class="payment-options">
+            <img src="https://telecomtalk.info/wp-content/uploads/2022/12/gpay-how-to-create-or-find-upi-1024x683.jpg" alt="GPay" class="payment-option">
+            <img src="https://d3pc1xvrcw35tl.cloudfront.net/images/1200x900/payment-app-phone-pay-has-launched-an-aggregator-service-know-here-everything_2023061030257.jpg" alt="PhonePe" class="payment-option">
+            <img src="https://th.bing.com/th/id/OIP.oThfNl_HRn7S8vKzxowd8AHaCm?rs=1&pid=ImgDetMain" alt="UPI" class="payment-option">
+
+        </div>
+        <button type="button" onclick="placeOrder()">Place Order</button>
+    </form>
+    <div id="order-summary" class="hidden">
+        <h2>Order Summary</h2>
+        <p><strong>Paneer Biryani:</strong> ₹180</p>
+        <p><strong>Veg Manchurian:</strong> ₹165</p>
+        <p><strong>Total:</strong> ₹345</p>
+        <h2>Payment</h2>
+        <p>Please scan the QR code below to make the payment using any UPI app.</p>
+        <img src="https://www.myhomesplan.com/images/upi-payment.png" alt="UPI QR Code" class="qr-code">
+    </div>
+</div>
+<script>
+    function placeOrder() {
+        document.getElementById('order-form').classList.add('hidden');
+        document.getElementById('order-summary').classList.remove('hidden');
+    }
+</script>
+</body>
+</html>

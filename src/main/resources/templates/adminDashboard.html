@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard - FoodExpress</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .restaurant-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            padding: 0;
+        }
+        .restaurant-item {
+            background-color: white;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex: 1 0 30%; /* three columns */
+            max-width: 30%;
+            box-sizing: border-box;
+        }
+        img {
+            width: 100%;
+            height: 200px; /* Fixed height */
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .logo img {
+            height: 50px;
+        }
+        .header-title {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown-icon {
+            cursor: pointer;
+            font-size: 24px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="logo">
+        <img src="https://s3.amazonaws.com/cdn.designcrowd.com/blog/39-Food-Delivery-Logos-That-Will-Leave-You-Hungry-For-More/food-express-by-gigih-rudya-designcrowd.png" alt="FoodExpress Logo">
+    </div>
+    <div class="header-title">Admin Dashboard</div>
+    <div class="dropdown">
+        <span class="dropdown-icon">&#9776;</span>
+        <div class="dropdown-content">
+            <a href="/report">Report</a>
+            <a href="/reviews">Reviews</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <button onclick="location.href='/admin/addRestaurant'">Add New Restaurant</button>
+
+    <h2>Restaurant List</h2>
+    <div class="restaurant-list">
+        <div th:each="restaurant : ${restaurants}" class="restaurant-item">
+            <h3 th:text="${restaurant.name}">Restaurant Name</h3>
+            <p th:text="${restaurant.description}">Restaurant Description</p>
+            <img th:src="${restaurant.imageUrl}" alt="Restaurant Image">
+            <button th:onclick="'location.href=\'/restaurant/' + ${restaurant.id} + '/menu\' '">View Menu</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: lightsteelblue;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .graphic {
+            margin-right: 40px;
+        }
+        .graphic img {
+            width: 100px;
+        }
+        .form {
+            height: 350px;
+            max-width: 355px;
+        }
+        .form h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+        .form input, .form textarea {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .reset{
+            height: 1px;
+            width: 0.5;
+        }
+
+        .form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #b0add6;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form button:hover {
+            background-color: #6c5ce7;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="graphic">
+        <img src="https://cdn.dribbble.com/users/1631433/screenshots/13118573/envelope.gif" alt="Envelope logo">
+    </div>
+    <div class="form">
+        <h2>CONTACT US-Get in Touch</h2>
+        <input type="text" id="name" placeholder="Give your Name" required>
+        <input type="email" id="email" placeholder="Enter your Email" required>
+        <textarea id="message" placeholder="Message" required></textarea>
+        <button type="submit" onclick="submitForm()">Send</button>
+
+    </div>
+</div>
+
+<script>
+    function submitForm() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+
+        if (name && email && message) {
+            alert('Form submitted successfully!');
+        } else {
+            alert('Please fill out all fields.');
+        }
+    }
+</script>
+</body>
+</html>

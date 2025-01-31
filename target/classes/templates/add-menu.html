@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Menu Item</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f4f7fc;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .form-container {
+          background-color: white;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          width: 100%;
+          max-width: 600px;
+        }
+
+        h1 {
+          text-align: center;
+        }
+
+        label {
+          font-size: 1.2em;
+          margin: 10px 0;
+          display: block;
+        }
+
+        input {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 20px;
+          border-radius: 5px;
+          border: 1px solid #ddd;
+          font-size: 1em;
+        }
+
+        button {
+          padding: 10px 20px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          font-size: 1.2em;
+          cursor: pointer;
+          width: 100%;
+        }
+
+        button:hover {
+          background-color: #45a049;
+        }
+
+        .go-back {
+          display: block;
+          margin-top: 20px;
+          text-align: center;
+        }
+
+        .go-back a {
+          font-size: 1em;
+          color: #2196F3;
+          text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Add New Menu Item</h1>
+
+<div class="form-container">
+    <form action="/add-menu-item" method="POST">
+        <label for="name">Item Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" required>
+
+        <label for="restaurantId">Restaurant ID</label>
+        <input type="text" id="restaurantId" name="restaurantId" required>
+
+        <label for="price">Price (₹)</label>
+        <input type="number" id="price" name="price" required>
+
+        <label for="imageUrl">Image URL</label>
+        <input type="text" id="imageUrl" name="imageUrl" required>
+
+        <button type="submit">Add Item</button>
+    </form>
+
+    <div class="go-back">
+        <a href="/restaurant/1/menu">Back to Menu</a>
+    </div>
+</div>
+
+</body>
+</html>

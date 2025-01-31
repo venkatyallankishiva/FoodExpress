@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Registration - FoodExpress</title>
+    <style>
+        /* Import Google Fonts for custom fonts */
+        @import url('https://wallpaperaccess.com/css2?family=Poppins:wght@300;400;600&family=Roboto:wght@400;500&display=swap');
+
+        /* Set the background image for the entire page */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url('https://wallpaperaccess.com/full/1317125.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;  /* Adjusted to stack the logo and login container vertically */
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+        }
+
+        /* Logo Container */
+        .logo-container {
+            position: absolute;
+            top: 20px;  /* Positioned at the top of the page */
+            left: 50%;
+            transform: translateX(-50%);  /* Centers the logo horizontally */
+            z-index: 10;  /* Ensure the logo is above other elements */
+        }
+
+        .logo {
+            width: 100px;  /* Adjusted size for better visibility */
+            height: 100px; /* Adjusted height for a perfect circle */
+            border-radius: 50%; /* Makes the logo circular */
+            object-fit: cover;  /* Ensures the logo fits within the circle */
+        }
+
+        /* Login Container */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            width: 100%;
+            position: relative;
+            padding-top: 120px;  /* Added top padding to position it below the logo */
+        }
+
+        /* Style the login form inside a container with reduced size and color-changing effect */
+        .login-form {
+            padding: 30px;  /* Reduced padding */
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            width: 280px; /* Reduced width of the form */
+            text-align: center;
+            backdrop-filter: blur(10px); /* Glass effect */
+            animation: changeColor 20s infinite;  /* Color change animation every 20 seconds for 10 colors */
+        }
+
+        /* Keyframes for the color-changing animation */
+        @keyframes changeColor {
+            0% { background-color: rgba(255, 99, 71, 0.5); }  /* Tomato */
+            10% { background-color: rgba(60, 179, 113, 0.5); }  /* Medium Sea Green */
+            20% { background-color: rgba(135, 206, 250, 0.5); }  /* Sky Blue */
+            30% { background-color: rgba(255, 215, 0, 0.5); }  /* Gold */
+            40% { background-color: rgba(255, 105, 180, 0.5); }  /* Hot Pink */
+            50% { background-color: rgba(32, 178, 170, 0.5); }  /* Light Sea Green */
+            60% { background-color: rgba(255, 160, 122, 0.5); }  /* Light Salmon */
+            70% { background-color: rgba(255, 222, 173, 0.5); }  /* Navajo White */
+            80% { background-color: rgba(238, 130, 238, 0.5); }  /* Violet */
+            90% { background-color: rgba(255, 127, 80, 0.5); }  /* Coral */
+            100% { background-color: rgba(255, 99, 71, 0.5); }  /* Tomato */
+        }
+
+        /* Header Style */
+        .login-form h2 {
+            font-family: 'Poppins', sans-serif;
+            color: rgba(0, 0, 0, 0.82);
+            font-size: 20px;  /* Reduced font size */
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        /* Style form input fields */
+        .form-group {
+            margin-bottom: 18px;  /* Reduced margin */
+            position: relative;
+        }
+
+        /* Style for input fields with border animation */
+        .form-group input {
+            width: 80%;
+            padding: 12px;  /* Reduced padding */
+            font-size: 14px;  /* Reduced font size */
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            text-align: center;
+            outline: none;
+        }
+
+        /* Text in input fields changes as user interacts */
+        .form-group input::placeholder {
+            color: #888;
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* Neon border effect on focus */
+        .form-group input:focus {
+            border: 1px solid #ff0202; /* Neon pink border */
+            background-color: rgba(0, 0, 0, 0.82);
+            box-shadow: 0 0 15px #ff0099; /* Neon glow effect */
+        }
+
+        /* Style the labels for Username and Password to use a different font and bold */
+        .form-group label {
+            font-family: 'Roboto', sans-serif;  /* Change to a different font */
+            font-weight: bold;  /* Make the label bold */
+            color: rgb(0, 0, 0);  /* White text with slight opacity */
+            display: block;
+            font-size: 18px;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        /* Button Styling */
+        button {
+            width: 50%;
+            padding: 12px;  /* Reduced padding */
+            background-color: rgba(255, 0, 0, 0.8);
+            color: white;
+            font-size: 16px;  /* Reduced font size */
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.4s ease; /* Smooth transition */
+        }
+
+        button:hover {
+            background-color: #4caf50; /* Change to green on hover */
+            transform: scale(1.05); /* Slightly enlarge the button */
+        }
+
+        /* Footer Styling */
+        footer {
+            margin-top: 20px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        /* Responsive Design for smaller screens */
+        @media (max-width: 480px) {
+            .login-form {
+                width: 85%;  /* Slightly larger width for small screens */
+                padding: 18px;
+            }
+
+            .login-form h2 {
+                font-size: 18px;  /* Adjust header font size */
+            }
+
+            .form-group input {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="logo-container">
+    <img src="https://s3.amazonaws.com/cdn.designcrowd.com/blog/39-Food-Delivery-Logos-That-Will-Leave-You-Hungry-For-More/food-express-by-gigih-rudya-designcrowd.png" alt="FoodExpress Logo" class="logo">
+</div>
+
+<div class="login-container">
+    <div class="login-form">
+        <h2>Admin Registration</h2>
+        <form action="/admin/register" method="post">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" required>
+                    <span id="togglePassword" class="eye-icon">
+            <img src="https://img.icons8.com/ios-filled/16/000000/visible.png" alt="Show Password">
+          </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <div class="password-container">
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <span id="toggleConfirmPassword" class="eye-icon">
+            <img src="https://img.icons8.com/ios-filled/16/000000/visible.png" alt="Show Password">
+          </span>
+                </div>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <footer>
+            <p><a href="/admin/login" style="color: #fff; text-decoration: none;">Already have an account? Login here</a></p>
+        </footer>
+    </div>
+</div>
+
+<script>
+    // Password visibility toggle functionality
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordField = document.getElementById('password');
+
+    togglePassword.addEventListener('click', function () {
+      const type = passwordField.type === 'password' ? 'text' : 'password';
+      passwordField.type = type;
+      this.querySelector('img').src = type === 'password' ? 'https://img.icons8.com/ios-filled/16/000000/visible.png' : 'https://img.icons8.com/ios-filled/16/000000/invisible.png';
+    });
+
+    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+    const confirmPasswordField = document.getElementById('confirmPassword');
+
+    toggleConfirmPassword.addEventListener('click', function () {
+      const type = confirmPasswordField.type === 'password' ? 'text' : 'password';
+      confirmPasswordField.type = type;
+      this.querySelector('img').src = type === 'password' ? 'https://img.icons8.com/ios-filled/16/000000/visible.png' : 'https://img.icons8.com/ios-filled/16/000000/invisible.png';
+    });
+</script>
+</body>
+</html>

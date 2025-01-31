@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Restaurant Menu</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f7fa;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            width: 100px;
+            height: 90px;
+            border-radius: 50%;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header .cart a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        main {
+            padding: 20px 0;
+            margin-top: 110px; /* Adjust this value to match the height of the header */
+        }
+
+        main .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .menu-item {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .menu-item .item-info {
+            flex: 1;
+            width: 100%;
+        }
+
+        .menu-item img {
+            width: 100px;
+            height: 100px; /* Fixed height */
+            object-fit: cover; /* Ensure images fill the box without distortion */
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .menu-item h2 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 22px;
+        }
+
+        .menu-item p {
+            margin: 0;
+            color: #666;
+        }
+
+        .add-to-cart-btn {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        footer .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <img src="https://s3.amazonaws.com/cdn.designcrowd.com/blog/39-Food-Delivery-Logos-That-Will-Leave-You-Hungry-For-More/food-express-by-gigih-rudya-designcrowd.png" alt="Food Express Logo" class="logo">
+        <h1 th:text="${restaurant.name}">Restaurant Name</h1>
+        <div class="cart">
+ <a href="/cart">
+
+
+            <i class="fas fa-shopping-cart"></i> Cart
+            </a>
+        </div>
+    </div>
+</header>
+<main>
+    <div class="container">
+        <div class="menu-items">
+            <div class="menu-item" th:each="item : ${menuItems}">
+                <div class="item-info">
+                    <img th:src="${item.imageUrl}" alt="Menu Item Image">
+                    <h2 th:text="${item.name}">Item Name</h2>
+                    <p th:text="${item.price}">Item Price</p>
+                    <h6 th:text="${item.description}">Item Description</h6>
+                </div>
+                <button class="add-to-cart-btn" th:attr="data-id=${item.id}" onclick="addToCart(this)">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+</main>
+<footer>
+    <div class="container">
+        <p>&copy; 2025 Food Express. All rights reserved.</p>
+    </div>
+</footer>
+<script>
+    function addToCart(button) {
+    let itemId = button.getAttribute("data-id");
+    fetch(`/cart/add/${itemId}`, {
+        method: 'POST'
+    }).then(response => {
+        if (response.ok) {
+            updateCart();
+        } else {
+            alert("Failed to add item to cart.");
+        }
+    });
+}
+
+function updateCart() {
+    fetch('/cart/summary')
+        .then(response => response.json())
+        .then(cartSummary => {
+            console.log(cartSummary); // Add this line
+            let totalItems = Object.values(cartSummary).reduce((a, b) => a + b, 0);
+            let cartElement = document.querySelector('.cart a');
+            console.log(cartElement); // Add this line
+            cartElement.innerHTML = `<i class="fas fa-shopping-cart"></i> Cart (${totalItems})`;
+        })
+        .catch(error => {
+            console.error("Error updating cart:", error);
+        });
+}
+
+
+</script>
+</body>
+</html>

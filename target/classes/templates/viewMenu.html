@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Restaurant Menu - FoodExpress</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            position: relative; /* Ensure the back button is positioned relative to the body */
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        li {
+            background-color: white;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 250px;
+            flex: 1 1 250px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            height: 150px; /* Fixed height */
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .menu-item-info {
+            margin-top: 10px;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .back-button img {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <button class="back-button" onclick="location.href='/admin/dashboard'">
+        <img src="https://img.icons8.com/ios-glyphs/30/000000/left.png" alt="Back">
+    </button>
+    <h1>Menu for <span th:text="${restaurant.name}">Restaurant Name</span></h1>
+    <button th:onclick="'location.href=\'/restaurant/' + ${restaurant.id} + '/addMenuItem\' '">Add New Menu Item</button>
+
+    <h2>Menu Items</h2>
+    <ul>
+        <li th:each="menuItem : ${menuItems}">
+            <img th:src="${menuItem.imageUrl}" alt="Menu Item Image">
+            <div class="menu-item-info">
+                <h3 th:text="${menuItem.name}">Item Name</h3>
+                <p th:text="${menuItem.description}">Item Description</p>
+                <p th:text="'Price: ₹' + ${menuItem.price}">Price</p>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+</form>
+                <div class="card-body">
+                    <p><strong>Name:</strong> <span th:text="${user.name}"></span></p>
+                    <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+                    <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+                    <p><strong>PhoneNO:</strong> <span th:text="${user.phoneNumber}"></span></p>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="/welcome" class="btn btn-primary">Back to Welcome Page</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

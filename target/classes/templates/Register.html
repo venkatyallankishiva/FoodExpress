@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration</title>
+    <style>
+        body, h1, p {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        body {
+            background: url('https://raw.githubusercontent.com/LakshanRukantha/food-express/master/images/food-dilivery.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 35px;
+            border-radius: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .logo {
+            width: 100px;
+            height: 90px;
+            border-radius: 50%;
+
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2px;
+            font-size: 2 em;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .register-button {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .register-button:hover {
+            background-color: #45a049;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-link a {
+            text-decoration: none;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <img src="https://s3.amazonaws.com/cdn.designcrowd.com/blog/39-Food-Delivery-Logos-That-Will-Leave-You-Hungry-For-More/food-express-by-gigih-rudya-designcrowd.png" alt="Food Express Logo" class="logo">
+    <h1>Register</h1>
+    <form action="/register" method="post">
+        <input type="text" class="input-field" name="username" placeholder="Username" required />
+        <input type="email" class="input-field" name="email" placeholder="Email (ID)" required />
+        <input type="text" class="input-field" name="phoneNumber" placeholder="Phone Number" required pattern="^\d{10}$" title="Enter a valid 10-digit phone number" />
+        <input type="password" class="input-field" name="password" placeholder="Password" required />
+        <input type="password" class="input-field" name="confirmPassword" placeholder="Confirm Password" required />
+        <button type="submit" class="register-button">Register</button>
+    </form>
+    <div class="login-link">
+        <p>Already have an account? <a href="/login">Login here</a></p>
+    </div>
+</div>
+
+</body>
+</html>

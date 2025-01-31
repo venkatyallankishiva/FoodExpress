@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Welcome - Food Express</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('https://cmkt-image-prd.freetls.fastly.net/0.1.0/ps/106399/910/606/m2/fpnw/wm1/crsrxfllostehmuxwzqfkdarpcg0di40toehyl4mzmgrkmy3dpfzxttukvsmluvp-.jpg?1399222059&s=c6404b0a41b28e87a4768c20a5e90ee1');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            height: 100vh;
+        }
+        .overlay {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block; /* Ensuring it is a block element */
+            color: black; /* Setting the font color to black */
+            background-color: rgba(255, 255, 255, 0.8); /* Optional: Adding a semi-transparent background for contrast */
+            padding: 10px 20px; /* Adding some padding */
+            border-radius: 10px; /* Adding some border-radius for rounded corners */
+        }
+
+        .highlight {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f0db4f;
+            margin: 20px 0;
+        }
+        nav {
+            margin-bottom: 40px;
+        }
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            margin: 0 5px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.2); /* Light background color for the blocks */
+            transition: color 0.3s, background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4); /* Slightly darker on hover */
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .buttons a {
+            text-decoration: none;
+            background: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 0 10px;
+            transition: background 0.3s;
+        }
+        .buttons a:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="overlay">
+    <img src="https://s3.amazonaws.com/cdn.designcrowd.com/blog/39-Food-Delivery-Logos-That-Will-Leave-You-Hungry-For-More/food-express-by-gigih-rudya-designcrowd.png" alt="Food Express Logo" class="logo">
+    <h1>Welcome to Food Express</h1>
+    <div class="highlight">Delicious Meals, Delivered Fast</div>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/register">Register</a>
+        <a href="/login">Login</a>
+        <a href="/about">About</a>
+        <a href="/services">Services</a>
+        <a href="/contact">Contact</a>
+        <a href="/admin/register">Admin Login</a>
+    </nav>
+    <div class="buttons">
+        <a href="/menu">View Menu</a>
+    </div>
+</div>
+</body>
+</html>
