@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Orders Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2a5d84;
+            --secondary-color: #4b86b4;
+            --success-color: #5cb85c;
+            --warning-color: #f0ad4e;
+            --danger-color: #d9534f;
+        }
+
+        body {
+            background: #f5f7fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .dashboard-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            padding: 1rem;
+        }
+
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-status {
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-preparing {
+            background: #fff8e1;
+            color: #856404;
+        }
+
+        .status-ready {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-delivered {
+            background: #d6d8d9;
+            color: #1b1e21;
+        }
+
+        .order-timeline {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            position: relative;
+        }
+
+        .timeline-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #dee2e6;
+            z-index: -1;
+        }
+
+        .timeline-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #dee2e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            color: white;
+        }
+
+        .active-step .timeline-icon {
+            background: var(--primary-color);
+        }
+
+        .order-items-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .filter-controls {
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-box {
+            max-width: 300px;
+            border-radius: 20px;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid #ddd;
+        }
+
+        .filter-btn {
+            margin: 0 0.5rem;
+            border-radius: 20px;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-header">
+        <div class="container">
+            <h1 class="mb-3"><i class="fas fa-concierge-bell"></i> Order Management</h1>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="search-box">
+                    <input type="text" class="form-control" placeholder="Search orders..." id="searchInput">
+                </div>
+                <div class="filter-controls d-flex">
+                    <button class="btn btn-light filter-btn active" data-filter="all">All</button>
+                    <button class="btn btn-light filter-btn" data-filter="PENDING">Pending</button>
+                    <button class="btn btn-light filter-btn" data-filter="PREPARING">Preparing</button>
+                    <button class="btn btn-light filter-btn" data-filter="READY">Ready</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                <div id="orderListContainer">
+                    <div th:each="order : ${orders}" class="order-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h5 class="card-title" th:text="'Order #' + ${order.id}"></h5>
+                                    <p class="text-muted mb-0">Customer: <span th:text="${order.name}"></span></p>
+                                </div>
+                                <div class="text-end">
+                                    <span class="order-status" th:classappend="${order.orderStatus == 'PENDING' ? 'status-pending' :
+                                                  (order.orderStatus == 'PREPARING' ? 'status-preparing' :
+                                                  (order.orderStatus == 'READY' ? 'status-ready' :
+                                                  (order.orderStatus == 'DELIVERED' ? 'status-delivered' : ''))) }"
+                                        th:text="${order.orderStatus}"></span>
+                                    <p class="text-muted mb-0 mt-1">Total: $<span th:text="${order.totalPrice}"></span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="order-timeline mb-3">
+                                <div class="timeline-step"
+                                    th:classappend="${order.orderStatus == 'PENDING' ? 'active-step' : ''}">
+                                    <div class="timeline-icon"><i class="fas fa-utensils"></i></div>
+                                    <small>Received</small>
+                                </div>
+                                <div class="timeline-step"
+                                    th:classappend="${order.orderStatus == 'PREPARING' ? 'active-step' : ''}">
+                                    <div class="timeline-icon"><i class="fas fa-clock"></i></div>
+                                    <small>Preparing</small>
+                                </div>
+                                <div class="timeline-step"
+                                    th:classappend="${order.orderStatus == 'READY' ? 'active-step' : ''}">
+                                    <div class="timeline-icon"><i class="fas fa-check"></i></div>
+                                    <small>Ready</small>
+                                </div>
+                                <div class="timeline-step"
+                                    th:classappend="${order.orderStatus == 'DELIVERED' ? 'active-step' : ''}">
+                                    <div class="timeline-icon"><i class="fas fa-truck"></i></div>
+                                    <small>Delivered</small>
+                                </div>
+                            </div>
+
+                            <ul class="order-items-list">
+                                <li th:each="item : ${order.orderItems}" class="order-item">
+                                    <span th:text="${item.menuItem.name}"></span>
+                                    <span th:text="'x' + ${item.quantity}"></span>
+                                    <!-- <span th:text="'$' + ${item.totalPrice}"></span> -->
+                                </li>
+                            </ul>
+
+                            <div class="d-flex justify-content-end gap-2 mt-3">
+
+                                <input type="hidden" name="orderId" th:value="${order.id}">
+                                <button type="button" class="btn btn-primary action-btn update-btn">
+                                    <i class="fas fa-sync-alt"></i> Update Status
+                                </button>
+
+                                <button class="btn btn-success action-btn">
+                                    <i class="fas fa-print"></i> Print Ticket
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchInput");
+            const filterButtons = document.querySelectorAll(".filter-btn");
+            const orders = document.querySelectorAll(".order-card");
+
+            // Search Orders
+            searchInput.addEventListener("input", function () {
+                const query = searchInput.value.toLowerCase();
+                orders.forEach(order => {
+                    const orderText = order.textContent.toLowerCase();
+                    order.style.display = orderText.includes(query) ? "block" : "none";
+                });
+            });
+
+            // Filter Orders
+            filterButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    // Remove 'active' class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove("active"));
+                    this.classList.add("active");
+
+                    const filterValue = this.getAttribute("data-filter");
+
+                    orders.forEach(order => {
+                        const status = order.querySelector(".order-status").textContent.trim();
+                        if (filterValue === "all" || status === filterValue) {
+                            order.style.display = "block";
+                        } else {
+                            order.style.display = "none";
+                        }
+                    });
+                });
+            });
+        });
+        $(document).ready(function () {
+            // Define the status cycle
+            const statusCycle = {
+                "PENDING": "PREPARING",
+                "PREPARING": "READY",
+                "READY": "DELIVERED"
+            };
+
+            // Handle status update button click
+            $('.update-btn').click(function () {
+                const button = $(this);
+                const orderCard = button.closest('.order-card');
+                const orderId = orderCard.find('input[name="orderId"]').val();
+                let currentStatus = orderCard.find('.order-status').text().trim();
+
+                // Get the next status in cycle
+                const newStatus = statusCycle[currentStatus] || "PENDING";
+
+                // Send AJAX request to update status
+                $.post('/restaurant/orders/update-status', { orderId: orderId, status: newStatus })
+                    .done(function () {
+                        $("#orderListContainer").load(window.location.href + " #orderListContainer > *");
+                        // Update UI after successful response
+                        orderCard.find('.order-status')
+                            .text(newStatus)
+                            .removeClass('status-pending status-preparing status-ready status-delivered')
+                            .addClass(`status-${newStatus.toLowerCase()}`);
+                    })
+                    .fail(function () {
+                        alert("Failed to update status. Try again!");
+                    });
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>

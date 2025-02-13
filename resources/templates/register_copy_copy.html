@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Food Express - Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10B981;
+            --primary-hover: #059669;
+            --background: #f8fafc;
+            --text: #0f172a;
+            --text-light: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .hero-section {
+            flex: 1;
+            background: linear-gradient(rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.1)),
+                url('https://res.cloudinary.com/ddn1hxi8k/image/upload/v1738392565/Login_page_pczvse.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* background: linear-gradient(45deg, rgba(16, 185, 129, 0.3), transparent); */
+        }
+
+        .form-section {
+            width: 480px;
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: white;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtext {
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.875rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .divider {
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .google-btn {
+            width: 100%;
+            padding: 0.875rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            color: var(--text);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .google-btn:hover {
+            border-color: var(--primary);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+
+        .login-text {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .login-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alert-info {
+            background: #e0f2fe;
+            color: #0ea5e9;
+        }
+
+        .error-message {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .hero-section {
+                display: none;
+            }
+
+            .form-section {
+                width: 100%;
+                padding: 2rem;
+                min-height: 100vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="hero-section"></div>
+
+        <div class="form-section">
+            <div class="logo">
+                <div class="logo-icon">FE</div>
+                FoodExpress
+            </div>
+
+            <div th:if="${param.success}" class="alert alert-info">
+                <span class="material-icons-round">check_circle</span>
+                You have successfully registered!
+            </div>
+
+            <h1>Create an Account</h1>
+            <p class="subtext">Get started with your free account</p>
+
+            <form method="post" th:action="@{/register/save}" th:object="${user}">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" class="input-field" name="name" placeholder="Enter your name" th:field="*{name}"
+                        required>
+                    <p th:errors="*{name}" class="error-message"></p>
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="input-field" name="email" placeholder="Enter your email"
+                        th:field="*{email}" required>
+                    <p th:errors="*{email}" class="error-message"></p>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="password-container">
+                        <input type="password" class="input-field" name="password" id="password"
+                            placeholder="Create a password" th:field="*{password}" required>
+                        <span class="toggle-password material-icons-round"
+                            onclick="togglePassword()">visibility_off</span>
+                    </div>
+                    <p th:errors="*{password}" class="error-message"></p>
+                </div>
+
+                <button type="submit" class="submit-btn">Create Account</button>
+            </form>
+
+            <div class="divider">
+                <div class="divider-line"></div>
+                <span>OR</span>
+                <div class="divider-line"></div>
+            </div>
+
+            <button class="google-btn" onclick="window.location.href='/oauth2/authorization/google'">
+                <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google logo" width="20">
+                Continue with Google
+            </button>
+
+
+            <p class="login-text">
+                Already have an account?
+                <a th:href="@{/login}" class="login-link">Sign in</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const toggleIcon = document.querySelector('.toggle-password');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleIcon.textContent = 'visibility';
+            } else {
+                passwordField.type = 'password';
+                toggleIcon.textContent = 'visibility_off';
+            }
+        }
+    </script>
+</body>
+
+</html>

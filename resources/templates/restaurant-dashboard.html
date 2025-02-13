@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --sidebar-bg: #1a2335;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card h5 {
+            color: #6c757d;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            height: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
+        }
+
+        .alert-item {
+            background: #fff8dd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .alert-item:hover {
+            transform: translateX(4px);
+        }
+
+        .quick-action-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quick-action-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .stat-card {
+                margin-bottom: 1rem;
+            }
+
+            .chart-container {
+                height: 300px;
+            }
+
+            .quick-action-btn {
+                font-size: 0.9rem;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid p-4">
+        <!-- Stats Row -->
+        <div class="row g-4 mb-4">
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <h5>Today's Sales</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="mb-0">$4,230</h2>
+                        <span class="badge bg-success">↑ 12%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <h5>Active Orders</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="mb-0">18</h2>
+                        <div class="text-end">
+                            <div class="text-primary">3 preparing</div>
+                            <div class="text-success">15 ready</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <h5>Tables Occupied</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="mb-0">12/20</h2>
+                        <div class="text-warning">60% capacity</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <h5>Customer Satisfaction</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="mb-0">4.8★</h2>
+                        <div class="text-success">98 reviews</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-8">
+                <div class="chart-container">
+                    <h5>Sales Trend</h5>
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="chart-container">
+                    <h5>Top Selling Items</h5>
+                    <canvas id="topItemsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sales Chart
+        const salesCtx = document.getElementById('salesChart').getContext('2d');
+        new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Daily Sales',
+                    data: [3200, 4100, 3850, 4750, 5200, 6100, 5900],
+                    borderColor: '#4a90e2',
+                    backgroundColor: 'rgba(74, 144, 226, 0.2)',
+                    tension: 0.4,
+                    borderWidth: 2,
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Top Items Chart
+        const itemsCtx = document.getElementById('topItemsChart').getContext('2d');
+        new Chart(itemsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Steak', 'Salmon', 'Pasta', 'Salad', 'Wine'],
+                datasets: [{
+                    data: [65, 59, 80, 81, 56],
+                    backgroundColor: ['#4a90e2', '#36a2eb', '#7cb5ec', '#a5d8f3', '#cfe9fb']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Fix Chart.js Tooltip Styling
+        Chart.defaults.plugins.tooltip.backgroundColor = '#1a2335';
+        Chart.defaults.plugins.tooltip.titleColor = '#fff';
+        Chart.defaults.plugins.tooltip.bodyColor = '#fff';
+        Chart.defaults.plugins.legend.labels.color = '#6c757d';
+
+        async function fetchDashboardData() {
+            try {
+                // Fetching all required data
+                const salesResponse = await fetch('/api/dashboard/sales');
+                const ordersResponse = await fetch('/api/dashboard/orders');
+                const tablesResponse = await fetch('/api/dashboard/tables');
+                const customerResponse = await fetch('/api/dashboard/customer-satisfaction');
+                const salesTrendResponse = await fetch('/api/dashboard/sales-trend');
+                const topItemsResponse = await fetch('/api/dashboard/top-items');
+
+                const salesData = await salesResponse.json();
+                const ordersData = await ordersResponse.json();
+                const tablesData = await tablesResponse.json();
+                const customerData = await customerResponse.json();
+                const salesTrendData = await salesTrendResponse.json();
+                const topItemsData = await topItemsResponse.json();
+
+                // Updating HTML dynamically
+                document.getElementById("totalSales").innerText = `$${salesData.totalSales.toFixed(2)}`;
+                document.getElementById("salesChange").innerText = `${salesData.percentageChange.toFixed(1)}%`;
+
+                document.getElementById("activeOrders").innerText = ordersData.activeOrders;
+                document.getElementById("preparingOrders").innerText = ordersData.preparing;
+                document.getElementById("readyOrders").innerText = ordersData.ready;
+
+                document.getElementById("tablesOccupied").innerText = `${tablesData.occupied}/${tablesData.capacity}`;
+
+                document.getElementById("customerSatisfaction").innerText = customerData.rating.toFixed(1) + "★";
+                document.getElementById("totalReviews").innerText = customerData.reviews + " reviews";
+
+                // Updating Charts
+                updateSalesChart(salesTrendData.labels, salesTrendData.sales);
+                updateTopItemsChart(topItemsData);
+            } catch (error) {
+                console.error("Error fetching dashboard data", error);
+            }
+        }
+
+        function updateSalesChart(labels, sales) {
+            new Chart(document.getElementById('salesChart').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Daily Sales',
+                        data: sales,
+                        borderColor: '#4a90e2',
+                        tension: 0.4,
+                        borderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        function updateTopItemsChart(items) {
+            const labels = items.map(i => i[0]);
+            const data = items.map(i => i[1]);
+
+            new Chart(document.getElementById('topItemsChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#4a90e2', '#36a2eb', '#7cb5ec', '#a5d8f3', '#cfe9fb']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchDashboardData);
+    </script>
+
+</body>
+
+</html>

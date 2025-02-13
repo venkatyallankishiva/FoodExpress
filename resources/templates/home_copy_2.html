@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Express - Order Your Favorite Meals</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #eafaf1;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            margin-top: 10px;
+        }
+
+        .header .brand {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2e7d32;
+            text-decoration: none;
+            padding-left: 60px;
+        }
+
+        .header .nav-links a {
+            margin-left: 15px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: #2e7d32;
+            transition: color 0.3s ease;
+        }
+
+        .header .nav-links a:hover {
+            color: #1b5e20;
+        } */
+
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: #4caf50;
+            /* Green background */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-bottom-left-radius: 20px;
+            /* Rounded bottom left corner */
+            border-bottom-right-radius: 20px;
+            /* Rounded bottom right corner */
+        }
+
+        .header .brand {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .header .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header .nav-links a {
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: #4caf50;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #fff;
+
+        }
+
+        .header .nav-links a:hover {
+            color: #4caf50;
+            background-color: #fff;
+        }
+
+        /* .hero {
+            height: 80vh;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            padding-top: 60px;
+        } */
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background:
+                /* linear-gradient(to right, rgba(76, 175, 80, 0.8), rgba(129, 199, 132, 0.8)), */
+                /* Green gradient overlay */
+                url('https://res.cloudinary.com/ddn1hxi8k/image/upload/v1738783106/bg1_oog64f.jpg');
+            /* Background image */
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        .hero h1 {
+
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            margin-bottom: 20px;
+            font-family: 'Roboto', sans-serif;
+            /* Custom font */
+
+            /* font-size: 3.5rem;
+            margin-bottom: 20px; */
+            /* text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); */
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: #fff;
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+            margin-bottom: 40px;
+            font-family: 'Roboto', sans-serif;
+            /* Custom font */
+
+            /* font-size: 1.5rem;
+            margin-bottom: 30px; */
+            /* text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5); */
+        }
+
+        .btn-primary {
+            background-color: #43a047;
+            border: none;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2e7d32;
+        }
+
+
+        .search-bar-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+
+        }
+
+        .location-box,
+        .search-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .location-box {
+            position: relative;
+            background-color: #f1f1f1;
+            border-radius: 25px;
+            padding: 10px;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        .location-icon {
+            font-size: 1.5rem;
+            color: #4caf50;
+        }
+
+        .location-input {
+            border: none;
+            background-color: transparent;
+            outline: none;
+            font-size: 1rem;
+            color: #333;
+            width: 100%;
+            padding: 8px 10px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .search-input {
+            border: 2px solid #4caf50;
+            border-radius: 25px 0 0 25px;
+            padding: 10px 15px;
+            font-size: 1.1rem;
+            flex: 1;
+        }
+
+        .search-btn {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 0 25px 25px 0;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background-color: #388e3c;
+        }
+
+        /* Dish Categories Section */
+        .categories-container {
+            /* margin-top: 40px; */
+            padding: 20px;
+        }
+
+        .categories-container h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            /* flex-wrap: wrap; */
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+
+        .category {
+            text-align: center;
+            width: 200px;
+            padding: 10px;
+        }
+
+        .category img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .category img:hover {
+            transform: scale(1.1);
+        }
+
+        .category p {
+            font-size: 1.2rem;
+            color: #2d6a4f;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .category a {
+            text-decoration: none;
+            color: #2d6a4f;
+        }
+
+        .restaurants-container {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .restaurants {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            padding: 2rem;
+            justify-content: center;
+            max-width: 1000px;
+            /* Keeps the grid centered */
+            width: 100%;
+        }
+
+        .restaurant-card {
+            display: block;
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .restaurant-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .restaurant-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .restaurant-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .restaurant-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .rating {
+            font-size: 1.1rem;
+            color: #ffa000;
+            margin-bottom: 8px;
+        }
+
+        .restaurant-address {
+            font-size: 0.9rem;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .explore-more {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .explore-more .btn-primary {
+            background-color: #2e7d32;
+            color: white;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .explore-more .btn-primary:hover {
+            background-color: #1b5e20;
+        }
+
+
+        .location-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 1000;
+        }
+
+        .location-dropdown button {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            border: none;
+            background: #4caf50;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .location-dropdown button:hover {
+            background: #388e3c;
+        }
+
+        #manualLocationInput {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #8dba70;
+            border-radius: 4px;
+        }
+
+        #suggestionsList {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        #suggestionsList li {
+            padding: 8px;
+            cursor: pointer;
+            color: #000;
+        }
+
+        #suggestionsList li:hover {
+            color: #000;
+            background: #6a8e5e;
+        }
+
+        #suggestionsList {
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        #suggestionsList li {
+            padding: 10px;
+            cursor: pointer;
+            list-style: none;
+            color: black;
+            background-color: white;
+        }
+
+        #suggestionsList li:hover {
+            background-color: #f0f0f0;
+        }
+
+        .parent-container {
+            position: relative;
+        }
+
+
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .header .nav-links {
+                flex-direction: column;
+            }
+
+            .header .nav-links a {
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="/customer/home" class="brand">Food Express</a>
+        <div class="nav-links">
+            <a href="#" th:href="@{/customer/restaurants/new}">Add Restaurant</a>
+            <!-- <a href="#" th:href="@{/login}">Login</a>
+            <a href="#" th:href="@{/register}">Sign Up</a> -->
+            <a href="#" th:href="@{/logout}">Logout</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Craving Something Delicious?</h1>
+        <p>Discover the best restaurants in your area and get food delivered fast!
+
+        </p>
+
+        <!-- Location Selector and Search Bar -->
+        <div class="search-bar-container">
+            <!-- Location Selector -->
+            <div class="location-box" id="locationBox">
+                <span class="location-icon">&#x1F4CD;</span>
+                <input type="text" class="location-input" id="locationInput" placeholder="Select your location"
+                    readonly>
+
+                <!-- Dropdown for Location Options -->
+                <div id="locationOptions" class="location-dropdown">
+                    <button onclick="detectMyLocation()">📍 Detect My Location</button>
+                    <input type="text" id="manualLocationInput" placeholder="Type your location..."
+                        oninput="searchLocation(this.value)">
+                    <ul id="suggestionsList"></ul>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-box">
+                <input type="text" placeholder="Search for meals, restaurants..." class="search-input" id="searchInput"
+                    th:value="${searchQuery}">
+                <button class="search-btn">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dish Categories Section -->
+    <!-- <div class="categories-container">
+        <h2>Explore Our Dishes</h2>
+        <div class="categories">
+            <div class="category" th:each="dish : ${dishes}">
+                <a th:href="@{/dish/{id}(id=${dish.id})}">
+                    <img th:src="@{${dish.imageUrl}}" alt="Dish" />
+                    <p th:text="${dish.name}"></p>
+                </a>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Dish Categories Section -->
+    <div class="categories-container">
+        <h2>Explore Our Dishes</h2>
+        <div class="categories">
+            <div class="category">
+                <a href="/dish/1">
+                    <img src="https://b.zmtcdn.com/data/o2_assets/bf2d0e73add1c206aeeb9fec762438111727708719.png"
+                        alt="Biryani">
+                    <p>Biryani</p>
+                </a>
+            </div>
+            <div class="category">
+                <a href="/dish/2">
+                    <img src="https://b.zmtcdn.com/data/o2_assets/d0bd7c9405ac87f6aa65e31fe55800941632716575.png"
+                        alt="Pizza">
+                    <p>Pizza</p>
+                </a>
+            </div>
+            <div class="category">
+                <a href="/dish/3">
+                    <img src="https://b.zmtcdn.com/data/dish_images/ccb7dc2ba2b054419f805da7f05704471634886169.png"
+                        alt="Burger">
+                    <p>Burger</p>
+                </a>
+            </div>
+            <div class="category">
+                <a href="/dish/4">
+                    <img src="https://b.zmtcdn.com/data/dish_images/c2f22c42f7ba90d81440a88449f4e5891634806087.png"
+                        alt="Rolls">
+                    <p>Rolls</p>
+                </a>
+            </div>
+
+            <div class="category">
+                <a href="/dish/4">
+                    <img src="https://b.zmtcdn.com/data/dish_images/d5ab931c8c239271de45e1c159af94311634805744.png"
+                        alt="Cake">
+                    <p>Cake</p>
+                </a>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+    <!-- Top brands Section -->
+    <div class="categories-container">
+        <h2 style="margin-left:10px">Top brands for you</h2>
+        <br>
+        <div class="categories">
+            <div class="category">
+                <a href="/dish/1">
+                    <img src="https://b.zmtcdn.com/data/brand_creatives/logos/775f928725d1a9dd80422632de22c224_1611377090.png?output-format=webp"
+                        alt="McDonald's">
+                    <p>McDonald's</p>
+                </a>
+            </div>
+            <div class="category">
+                <a href="/dish/2">
+                    <img src="https://b.zmtcdn.com/data/brand_creatives/logos/1a985408ca7ad8fd097f2c47db9c5cb6_1611252811.png?output-format=webp"
+                        alt="Domino's Pizza">
+                    <p>Domino's Pizza</p>
+                </a>
+            </div>
+            <div class="category">
+                <a href="/dish/3">
+                    <img src="https://b.zmtcdn.com/data/brand_creatives/logos/f1dc700c8be881b9a17be904971a0644_1726664269.png?output-format=webp"
+                        alt="KFC">
+                    <p>KFC</p>
+                </a>
+            </div>
+            <div class="category">
+                <a href="/dish/4">
+                    <img src="https://b.zmtcdn.com/data/brand_creatives/logos/c38f7540bcc5a38e918856ac06409056_1504531339.png?output-format=webp"
+                        alt="Pizza Hut">
+                    <p>Pizza Hut</p>
+                </a>
+            </div>
+
+            <div class="category">
+                <a href="/dish/5">
+                    <img src="https://b.zmtcdn.com/data/brand_creatives/logos/47c22bbd5043ef52b80a4e3d3409a368_1626810701.png?output-format=webp"
+                        alt="Behrouz Biryani">
+                    <p>Behrouz Biryani</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <h2>Discover Restaurants Near You</h2>
+
+    <div class="restaurants-container">
+        <section class="restaurants">
+            <a th:each="restaurant : ${restaurants}" th:href="@{'/customer/restaurant-menu/' + ${restaurant.id}}"
+                class="restaurant-card">
+
+                <div class="restaurant-image" th:style="'background-image: url(' + ${restaurant.imageUrl} + ');'">
+                </div>
+
+                <div class="restaurant-info">
+                    <div class="restaurant-name" th:text="${restaurant.name}"></div>
+
+                    <div class="rating">
+                        <span th:if="${restaurant.rating.intValue() > 0}"
+                            th:each="i : ${#numbers.sequence(1, restaurant.rating.intValue())}">★</span>
+                        <span th:if="${restaurant.rating.intValue() < 5}"
+                            th:each="i : ${#numbers.sequence(1, 5 - restaurant.rating.intValue())}">☆</span>
+                    </div>
+
+
+                    <p class="restaurant-address" th:text="${restaurant.address}"></p>
+                </div>
+            </a>
+        </section>
+    </div>
+    <!-- Explore More Section -->
+    <div class="explore-more">
+        <a href="/customer/restaurant-list" class="btn btn-primary">Explore More</a>
+    </div>
+    <div th:replace="fragments/footer.html"></div>
+
+    <script>
+        const apiKey = "7M4e0F1fGGpOzfHfwt8OhrlZ0d2GS7nV"; // Replace with your TomTom API Key
+
+        // Show dropdown on click
+        document.getElementById("locationBox").addEventListener("click", function () {
+            document.getElementById("locationOptions").style.display = "block";
+        });
+
+        // Hide dropdown when clicking outside
+        document.addEventListener("click", function (event) {
+            const dropdown = document.getElementById("locationOptions");
+            if (!document.getElementById("locationBox").contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.style.display = "none";
+            }
+        });
+
+        // Detect Current Location
+        function detectMyLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async function (position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    console.log("Current Location:", lat, lon);
+
+                    document.getElementById("locationInput").value = `Latitude: ${lat}, Longitude: ${lon}`;
+
+                    // Convert coordinates to an address
+                    const address = await reverseGeocode(lat, lon);
+                    document.getElementById("locationInput").value = address;
+
+                    fetchNearbyRestaurants(lat, lon);
+
+                }, function () {
+                    alert("Location access denied.");
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Reverse Geocoding (Convert Lat, Lon to Address)
+        async function reverseGeocode(lat, lon) {
+            try {
+                const response = await fetch(`https://api.tomtom.com/search/2/reverseGeocode/${lat},${lon}.json?key=${apiKey}`);
+                const data = await response.json();
+                return data.addresses[0]?.address.freeformAddress || "Location not found";
+            } catch (error) {
+                console.error("Reverse Geocoding Error:", error);
+                return "Error fetching address";
+            }
+        }
+
+        // Autocomplete for Manual Location Input
+        async function searchLocation(query) {
+            if (query.length < 3) return;
+
+            const response = await fetch(`https://api.tomtom.com/search/2/search/${query}.json?key=${apiKey}&limit=5`);
+            const data = await response.json();
+
+            const suggestions = data.results.map(result => ({
+                address: result.address.freeformAddress,
+                lat: result.position.lat,
+                lon: result.position.lon
+            }));
+
+            displaySuggestions(suggestions);
+        }
+
+        // Display Search Suggestions
+        function displaySuggestions(suggestions) {
+            const suggestionsList = document.getElementById("suggestionsList");
+            suggestionsList.innerHTML = "";
+
+            suggestions.forEach(suggestion => {
+                const li = document.createElement("li");
+                li.textContent = suggestion.address;
+                li.addEventListener("click", function () {
+                    document.getElementById("locationInput").value = suggestion.address;
+                    document.getElementById("locationOptions").style.display = "none";
+                    console.log("Selected Location:", suggestion.lat, suggestion.lon);
+
+                    // Fetch nearby restaurants when a location is selected
+                    fetchNearbyRestaurants(suggestion.lat, suggestion.lon);
+                });
+                suggestionsList.appendChild(li);
+            });
+        }
+
+        function redirectToRestaurantList() {
+            const searchQuery = document.getElementById('searchInput').value;
+            window.location.href = `/customer/restaurant-list`;
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                redirectToRestaurantList();
+            }
+        });
+
+        document.getElementById('searchInput').addEventListener('focus', function () {
+            redirectToRestaurantList();
+        });
+
+        async function fetchNearbyRestaurants(lat, lon) {
+            try {
+                const response = await fetch(`/customer/restaurants/nearby?latitude=${lat}&longitude=${lon}&radius=1`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const restaurants = await response.json();
+                console.log("Nearby Restaurants:", restaurants);
+                displayNearbyRestaurants(restaurants);
+            } catch (error) {
+                console.error("Error fetching restaurants:", error);
+                alert("Failed to fetch nearby restaurants. Please try again later.");
+            }
+        }
+
+
+        // Display Nearby Restaurants in the Restaurants Section
+        function displayNearbyRestaurants(restaurants) {
+            const container = document.querySelector(".restaurants");
+            container.innerHTML = "";  // Clear previous results
+
+            if (restaurants.length === 0) {
+                container.innerHTML = "<p>No restaurants found nearby.</p>";
+                return;
+            }
+
+            restaurants.forEach(restaurant => {
+                const restaurantCard = `
+            <a href="/customer/restaurant-menu/${restaurant.id}" class="restaurant-card">
+                <div class="restaurant-image" style="background-image: url(${restaurant.imageUrl});"></div>
+                <div class="restaurant-info">
+                    <div class="restaurant-name">${restaurant.name}</div>
+                    <div class="rating">${"★".repeat(Math.round(restaurant.rating))} ${"☆".repeat(5 - Math.round(restaurant.rating))}</div>
+                    <p class="restaurant-address">${restaurant.address}</p>
+                </div>
+            </a>
+        `;
+                container.innerHTML += restaurantCard;
+            });
+        }
+
+
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+</body>
+
+</html>

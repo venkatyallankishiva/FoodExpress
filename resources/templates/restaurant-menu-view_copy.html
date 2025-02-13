@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f8fafc;
+            margin: 0;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0;
+            color: #0f172a;
+        }
+
+        .add-button {
+            background: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .add-button:hover {
+            background: #2563eb;
+        }
+
+        .menu-table {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .menu-table th,
+        .menu-table td {
+            padding: 16px 24px;
+            text-align: left;
+        }
+
+        .menu-table thead {
+            background: #f1f5f9;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .menu-table th {
+            font-weight: 500;
+            color: #64748b;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-table tbody tr {
+            transition: background 0.2s;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .menu-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .menu-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .type-badge {
+            background: #f0f9ff;
+            color: #0369a1;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+        }
+
+
+        .availability {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .availability-true {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .availability-false {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-btn {
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            border: none;
+            background: transparent;
+        }
+
+        .edit-btn {
+            color: #3b82f6;
+        }
+
+        .edit-btn:hover {
+            background: #bfdbfe;
+        }
+
+        .delete-btn {
+            color: #ef4444;
+        }
+
+        .delete-btn:hover {
+            background: #fecaca;
+        }
+
+        .price {
+            font-weight: 500;
+            color: #16a34a;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .menu-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .add-button span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Menu Management</h1>
+            <a href="/restaurant/add-menu" class="add-button">
+                <span class="material-icons-round">add</span>
+                <span>Add New Item</span>
+            </a>
+        </div>
+
+        <table class="menu-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${menuItems}">
+                    <td>
+                        <img class="menu-item-image" th:src="${item.imageUrl ?: '/images/placeholder-food.jpg'}"
+                            alt="Menu item image">
+                    </td>
+                    <td style="font-weight: 500;" th:text="${item.name}"></td>
+                    <td style="color: #64748b;" th:text="${item.description}"></td>
+                    <td class="price" th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}"></td>
+                    <td>
+                        <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;"
+                            th:text="${item.categoryName}"></span>
+                    </td>
+
+                    <td>
+                        <span class="type-badge" th:text="${item.type}"></span>
+                    </td>
+                    <td>
+                        <span
+                            th:classappend="${item.availability} ? 'availability availability-true' : 'availability availability-false'">
+                            <span class="material-icons-round" style="font-size: 16px;">
+                                [[${item.availability} ? 'check_circle' : 'cancel']]
+                            </span>
+                            [[${item.availability} ? 'Available' : 'Unavailable']]
+                        </span>
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <a th:href="@{'/restaurant/menu/edit/' + ${item.id}}" class="action-btn edit-btn">
+                                <span class="material-icons-round">edit</span>
+                            </a>
+                            <button class="action-btn delete-btn"
+                                onclick="return confirm('Are you sure you want to delete this item?')"
+                                th:href="@{'/restaurant/menu/delete/' + ${item.id}}">
+                                <span class="material-icons-round">delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
