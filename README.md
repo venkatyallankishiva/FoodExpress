@@ -26,7 +26,7 @@ To run this project locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/rohitshimpi737/foodExpress.git
+  https://github.com/venkatyallankishiva/FoodExpress.git
    ```
 2. Navigate to the project directory:
    ```bash
@@ -60,6 +60,4 @@ Contributions are welcome! Follow these steps:
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## Contact
-For questions or support, contact [Rohit Shimpi](https://github.com/rohitshimpi737) via GitHub.
 
